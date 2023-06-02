@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class AliasJdbcTemplateRepositoryTest {
 
-    final static int NEXT_ALIAS_ID = 2;
+    final static int NEXT_ALIAS_ID = 4;
     @Autowired
     AliasJdbcTemplateRepository repository;
 
@@ -35,6 +35,18 @@ class AliasJdbcTemplateRepositoryTest {
 
     @Test
     void shouldUpdate(){
+        Alias alias = new Alias(1, "Nutmeg", "Mysterious, like eggnog", 1);
+        assertTrue(repository.update(alias));
+
+        Alias updated = repository.findById(1);
+
+        assertEquals("Mysterious, like eggnog", updated.getPersona());
+
+
+    }
+
+    @Test
+    void shouldNotUpdateMissing(){
 
     }
 

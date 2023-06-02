@@ -16,6 +16,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
@@ -55,7 +56,11 @@ class AliasServiceTest {
         Alias alias = makeAlias();
 
         Agent mockAgent = makeAgent();
-        mockAgent.setAliases(List.of(makeAlias()));
+
+        Alias exisitingAlias = makeAlias();
+        exisitingAlias.setAliasId(1);
+
+        mockAgent.setAliases(List.of(exisitingAlias));
         when(agentRepository.findById(1)).thenReturn(mockAgent);
 
         Result<Alias> actual = service.add(alias);
@@ -81,6 +86,42 @@ class AliasServiceTest {
         assertEquals(mockOut, actual.getPayload());
     }
 
+    @Test
+    void shouldNotUpdateMissing() {
+        Alias alias = makeAlias();
+        alias.setAliasId(99);
+        Agent mockAgent = makeAgent();
+        when(agentRepository.findById(1)).thenReturn(mockAgent);
+        when(repository.update(alias)).thenReturn(false);
+
+        Result<Alias> actual = service.update(alias);
+
+        assertEquals(ResultType.NOT_FOUND, actual.getType());
+
+    }
+
+    @Test
+    void shouldDeleteById() {
+        assertFalse(service.deleteById(3));
+        when(repository.deleteById(anyInt())).thenReturn(true);
+        assertTrue(service.deleteById(3));
+    }
+
+
+    @Test
+    void shouldUpdate() {
+        Alias alias = makeAlias();
+        alias.setAliasId(1);
+        Agent mockAgent = makeAgent();
+        when(agentRepository.findById(1)).thenReturn(mockAgent);
+        when(repository.update(alias)).thenReturn(true);
+
+        Result<Alias> actual = service.update(alias);
+
+        assertEquals(ResultType.SUCCESS, actual.getType());
+
+    }
+
     private Alias makeAlias() {
         Alias alias = new Alias();
         alias.setName("Nutmeg");
@@ -89,7 +130,6 @@ class AliasServiceTest {
     }
 
     private Agent makeAgent() {
-        //('Hazel','C','Sauven','1954-09-16',76),
         Agent agent = new Agent();
         agent.setAgentId(1);
         agent.setFirstName("Hazel");

@@ -29,6 +29,29 @@ public class AliasService {
 
     }
 
+    public Result<Alias> update(Alias alias) {
+        Result<Alias> result = validate(alias);
+        if (!result.isSuccess()) {
+            return result;
+        }
+        if (alias.getAliasId() <= 0) {
+            result.addMessage("aliasId cannot be set for `update` operation", ResultType.INVALID);
+            return result;
+        }
+
+        if(!aliasRepository.update(alias)) {
+            result.addMessage(String.format("aliasId: %s, not found", alias.getAliasId()), ResultType.NOT_FOUND);
+        }
+
+
+
+        return result;
+    }
+
+    public boolean deleteById(int aliasId) {
+        return aliasRepository.deleteById(aliasId);
+    }
+
     private Result<Alias> validate(Alias alias) {
         Result<Alias> result = new Result<>();
 
@@ -50,6 +73,9 @@ public class AliasService {
 
     private boolean isDuplicate(Alias alias, Agent agent){
         for(Alias existingAlias : agent.getAliases()){
+            if(existingAlias.getAliasId() == alias.getAliasId()) {
+                continue;
+            }
             if(existingAlias.getName().equalsIgnoreCase(alias.getName())){
                 if(existingAlias.getPersona() == null && alias.getPersona() == null) {
                     return true;

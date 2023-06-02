@@ -1,5 +1,6 @@
 package learn.field_agent.data;
 
+import learn.field_agent.data.mappers.AliasMapper;
 import learn.field_agent.models.Alias;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -16,6 +17,15 @@ public class AliasJdbcTemplateRepository implements AliasRepository{
 
     public AliasJdbcTemplateRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+    }
+
+    public Alias findById(int aliasId) {
+        final String sql = "select alias_id, `name`, persona, agent_id "
+                + "from alias where alias_id = ?;";
+
+        return jdbcTemplate.query(sql, new AliasMapper(), aliasId).stream()
+                .findFirst()
+                .orElse(null);
     }
 
 
@@ -43,11 +53,20 @@ public class AliasJdbcTemplateRepository implements AliasRepository{
 
     @Override
     public boolean update(Alias alias) {
-        return false;
+        final String sql = "update alias set "
+        + "`name` = ?, "
+        + "persona = ? "
+        + "where alias_id = ?; ";
+
+        return jdbcTemplate.update(sql,
+                alias.getName(),
+                alias.getPersona(),
+                alias.getAliasId()) > 0;
     }
 
     @Override
     public boolean deleteById(int aliasId) {
-        return false;
+        String sql = "delete from alias where alias_id = ?; ";
+        return jdbcTemplate.update(sql, aliasId) > 0;
     }
 }
