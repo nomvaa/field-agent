@@ -9,5 +9,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/security-clearance")
 public class SecurityClearanceController {
 
-    private final Sec
+
 }

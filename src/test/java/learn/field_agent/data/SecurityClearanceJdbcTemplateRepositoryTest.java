@@ -8,11 +8,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class SecurityClearanceJdbcTemplateRepositoryTest {
+
+    final static int NEXT_ID = 5;
 
     @Autowired
     SecurityClearanceJdbcTemplateRepository repository;
@@ -36,7 +37,7 @@ class SecurityClearanceJdbcTemplateRepositoryTest {
         actual = repository.findById(2);
         assertEquals(topSecret, actual);
 
-        actual = repository.findById(3);
+        actual = repository.findById(NEXT_ID + 1);
         assertEquals(null, actual);
     }
 
@@ -44,6 +45,22 @@ class SecurityClearanceJdbcTemplateRepositoryTest {
     void shouldFindAllSecurityClearance() {
         List<SecurityClearance> securityClearances = repository.findAll();
         assertNotNull(securityClearances);
+        assertTrue(securityClearances.size() > 0);
+    }
+
+    @Test
+    void shouldAddSecurityClearance() {
+        SecurityClearance securityClearance = makeSecurityClearance();
+        SecurityClearance actual = repository.add(securityClearance);
+        assertNotNull(actual);
+        assertEquals(NEXT_ID, actual.getSecurityClearanceId());
+
+    }
+
+    private SecurityClearance makeSecurityClearance() {
+        SecurityClearance securityClearance = new SecurityClearance();
+        securityClearance.setName("Bubbles");
+        return securityClearance;
     }
 
 
