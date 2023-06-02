@@ -6,24 +6,24 @@
 
 ## Alias
 ### Domain Rules
-- Name is required.
-- Persona is not required unless a name is duplicated. The persona differentiates between duplicate names.
+* Name is required.
+* Persona is not required unless a name is duplicated. The persona differentiates between duplicate names.
 
 ### Model
-* `Alias`
+* [x]`Alias`
     * private int aliasId;
     * private String name;
     * private String persona;
     * private int agentId;
 
 ### Fetch an individual agent with aliases attached.
-* [ ] Add list of `Alias` to `Agent`
-* [ ] Add `AliasMapper`
-* [ ] Add method to aliases in `AgentJdbcTEmplateRepository.findById()`
+* [x] Add list of `Alias` to `Agent`
+* [x] Add `AliasMapper`
+* [x] Add method to aliases in `AgentJdbcTEmplateRepository.findById()`
 
 ### Add an alias
-* [ ] Add `AliasRepository`
-    * [ ] Add `add` method  `Alias add()` 
+* [x] Add `AliasRepository`
+    * [x] Add `add` method  `Alias add()` 
 * [ ] Add `AliasService`
     * [ ] Add `add` method: `Result<Alias> add()`
     * [ ] Add validations
