@@ -2,6 +2,7 @@ package learn.field_agent.data;
 
 import learn.field_agent.data.mappers.AgentAgencyMapper;
 import learn.field_agent.data.mappers.AgentMapper;
+import learn.field_agent.data.mappers.AliasMapper;
 import learn.field_agent.models.Agent;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -43,6 +44,7 @@ public class AgentJdbcTemplateRepository implements AgentRepository {
 
         if (agent != null) {
             addAgencies(agent);
+            addAliases(agent);
         }
 
         return agent;
@@ -112,5 +114,13 @@ public class AgentJdbcTemplateRepository implements AgentRepository {
 
         var agentAgencies = jdbcTemplate.query(sql, new AgentAgencyMapper(), agent.getAgentId());
         agent.setAgencies(agentAgencies);
+    }
+
+    private void addAliases(Agent agent){
+        final String sql = "select alias_id, `name`, persona, agent_id "
+                + "from alias where agent_id = ?;";
+
+        var aliases = jdbcTemplate.query(sql, new AliasMapper(), agent.getAgentId());
+        agent.setAliases(aliases);
     }
 }

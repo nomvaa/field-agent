@@ -105,6 +105,8 @@ begin
     delete from agency_agent;
 	delete from agency;
 	alter table agency auto_increment = 1;
+    delete from alias;
+    alter table alias auto_increment = 1;
     delete from agent;
     alter table agent auto_increment = 1;
     
@@ -133,6 +135,10 @@ begin
 		('Urban','H','Carwithen',null,58),
 		('Ulises','B','Muhammad','2008-04-01',80),
 		('Phylys','Y','Howitt','1979-03-28',68);
+        
+        insert into alias (`name`, persona, agent_id)
+        values ('Nutmeg', null, 1);
+        
         
 	insert into agency_agent 
 		(agency_id, agent_id, identifier, security_clearance_id, activation_date)
