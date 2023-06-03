@@ -57,6 +57,20 @@ class SecurityClearanceJdbcTemplateRepositoryTest {
 
     }
 
+    @Test
+    void shouldUpdate() {
+        SecurityClearance securityClearance = makeSecurityClearance();
+        securityClearance.setSecurityClearanceId(3);
+        assertTrue(repository.update(securityClearance));
+    }
+
+    @Test
+    void shouldNotUpdateNonExistingSecurityClearanceId() {
+        SecurityClearance securityClearance = makeSecurityClearance();
+        securityClearance.setSecurityClearanceId(99);
+        assertFalse(repository.update(securityClearance));
+    }
+
     private SecurityClearance makeSecurityClearance() {
         SecurityClearance securityClearance = new SecurityClearance();
         securityClearance.setName("Bubbles");

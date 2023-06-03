@@ -1,7 +1,6 @@
 package learn.field_agent.domain;
 
 import learn.field_agent.data.SecurityClearanceRepository;
-import learn.field_agent.models.Agent;
 import learn.field_agent.models.SecurityClearance;
 import org.springframework.stereotype.Service;
 
@@ -41,11 +40,30 @@ public class SecurityClearanceService {
 
     }
 
+    public Result<SecurityClearance> update(SecurityClearance securityClearance){
+        Result<SecurityClearance> result = validate(securityClearance);
+        if (!result.isSuccess()) {
+            return result;
+        }
+
+        if(securityClearance.getSecurityClearanceId() <= 0) {
+            result.addMessage("securityClearanceId must be set for `update` operation", ResultType.INVALID);
+            return result;
+        }
+        if(!securityClearanceRepository.update(securityClearance)) {
+            String msg = String.format("securityClearanceId: %s, not found", securityClearance.getSecurityClearanceId());
+            result.addMessage(msg, ResultType.NOT_FOUND);
+        }
+
+        return result;
+    }
+
     private Result<SecurityClearance> validate(SecurityClearance securityClearance) {
         Result<SecurityClearance> result = new Result<>();
 
         if(securityClearance == null) {
             result.addMessage("security clearance cannot be null", ResultType.INVALID);
+            return result;
         }
         if(Validations.isNullOrBlank(securityClearance.getName())){
             result.addMessage("name is required", ResultType.INVALID);
