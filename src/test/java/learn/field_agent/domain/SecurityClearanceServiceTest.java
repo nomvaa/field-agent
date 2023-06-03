@@ -76,6 +76,16 @@ class SecurityClearanceServiceTest {
         assertEquals(ResultType.NOT_FOUND, actual.getType());
     }
 
+    @Test
+    void shouldUpdate() {
+        SecurityClearance securityClearance = makeSecurityClearance();
+        securityClearance.setSecurityClearanceId(1);
+        when(repository.update(securityClearance)).thenReturn(true);
+
+        Result<SecurityClearance> actual = service.update(securityClearance);
+        assertEquals(ResultType.SUCCESS, actual.getType());
+    }
+
     private SecurityClearance makeSecurityClearance() {
         SecurityClearance securityClearance = new SecurityClearance();
         securityClearance.setName("Bubbles");
