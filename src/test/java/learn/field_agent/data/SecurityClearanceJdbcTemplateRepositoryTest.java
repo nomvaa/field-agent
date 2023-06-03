@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class SecurityClearanceJdbcTemplateRepositoryTest {
 
-    final static int NEXT_ID = 5;
+    final static int NEXT_ID = 3;
 
     @Autowired
     SecurityClearanceJdbcTemplateRepository repository;
@@ -25,6 +25,7 @@ class SecurityClearanceJdbcTemplateRepositoryTest {
     void setup() {
         knownGoodState.set();
     }
+
 
     @Test
     void shouldFindById() {
@@ -57,10 +58,11 @@ class SecurityClearanceJdbcTemplateRepositoryTest {
 
     }
 
+
     @Test
     void shouldUpdate() {
         SecurityClearance securityClearance = makeSecurityClearance();
-        securityClearance.setSecurityClearanceId(3);
+        securityClearance.setSecurityClearanceId(2);
         assertTrue(repository.update(securityClearance));
     }
 
@@ -71,9 +73,17 @@ class SecurityClearanceJdbcTemplateRepositoryTest {
         assertFalse(repository.update(securityClearance));
     }
 
+    @Test
+    void shouldDelete() {
+        assertTrue(repository.deleteById(2));
+        assertFalse(repository.deleteById(2));
+    }
+
+
+
     private SecurityClearance makeSecurityClearance() {
         SecurityClearance securityClearance = new SecurityClearance();
-        securityClearance.setName("Bubbles");
+        securityClearance.setName("Test");
         return securityClearance;
     }
 

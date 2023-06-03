@@ -58,6 +58,10 @@ public class SecurityClearanceService {
         return result;
     }
 
+    public boolean deleteById(int securityClearanceId){
+        return securityClearanceRepository.deleteById(securityClearanceId);
+    }
+
     private Result<SecurityClearance> validate(SecurityClearance securityClearance) {
         Result<SecurityClearance> result = new Result<>();
 
