@@ -1,5 +1,6 @@
 package learn.field_agent.domain;
 
+import learn.field_agent.data.AgencyAgentRepository;
 import learn.field_agent.data.SecurityClearanceRepository;
 import learn.field_agent.models.SecurityClearance;
 import org.junit.jupiter.api.Test;
@@ -7,7 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
@@ -18,6 +22,9 @@ class SecurityClearanceServiceTest {
 
     @MockBean
     SecurityClearanceRepository repository;
+
+    @MockBean
+    AgencyAgentRepository agencyAgentRepository;
 
     @Test
     void shouldFindBubbles() {
@@ -33,23 +40,40 @@ class SecurityClearanceServiceTest {
     }
 
     @Test
-    void shouldNotFindWhenInvalid() {
+    void shouldNotAddWhenInvalid() {
+        SecurityClearance mockOut = makeSecurityClearance();
+        mockOut.setSecurityClearanceId(3);
+        when(repository.add(any())).thenReturn(mockOut);
+
         SecurityClearance securityClearance = makeSecurityClearance();
-        Result<SecurityClearance> result = service.add(securityClearance);
-        assertEquals(ResultType.INVALID, result.getType());
-
-        securityClearance.setSecurityClearanceId(0);
         securityClearance.setName(null);
-        result = service.add(securityClearance);
-        assertEquals(ResultType.INVALID, result.getType());
+
+        Result<SecurityClearance> actual = service.add(securityClearance);
+        assertNull(actual.getPayload());
+
     }
 
     @Test
-    void add() {
+    void shouldNotAddDuplicateName() {
+        SecurityClearance mockClearance = makeSecurityClearance();
+        SecurityClearance duplicate = makeSecurityClearance();
+        duplicate.setName("Bubbles");
+
+        mockClearance.setName(duplicate.getName());
+        when(repository.findById(1)).thenReturn(mockClearance);
+
+        Result<SecurityClearance> actual = service.add(mockClearance);
+        assertNull(actual.getPayload());
     }
 
     @Test
-    void update() {
+    void shouldNotUpdateMissingSecurityClearance() {
+        SecurityClearance securityClearance = makeSecurityClearance();
+        securityClearance.setSecurityClearanceId(99);
+        when(repository.update(securityClearance)).thenReturn(false);
+
+        Result<SecurityClearance> actual = service.update(securityClearance);
+        assertEquals(ResultType.NOT_FOUND, actual.getType());
     }
 
     private SecurityClearance makeSecurityClearance() {
