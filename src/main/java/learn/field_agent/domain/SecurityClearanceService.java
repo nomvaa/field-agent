@@ -75,6 +75,7 @@ public class SecurityClearanceService {
             return result;
         }
 
+
         boolean deleted = securityClearanceRepository.deleteById(securityClearanceId);
         if(!deleted) {
             result.addMessage("Cannot find security clearance id", ResultType.NOT_FOUND);
