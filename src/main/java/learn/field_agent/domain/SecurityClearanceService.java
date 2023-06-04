@@ -72,6 +72,7 @@ public class SecurityClearanceService {
 
         if(isReferenced(securityClearanceId)){
             result.addMessage("Cannot delete security clearance Id that exists in Agency_agent record", ResultType.INVALID);
+            return result;
         }
 
         boolean deleted = securityClearanceRepository.deleteById(securityClearanceId);
@@ -119,6 +120,6 @@ public class SecurityClearanceService {
         }
         return false;
     }
-    
+
 
 }

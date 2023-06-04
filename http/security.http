@@ -21,7 +21,7 @@ Content-Type: application/json
 
 {
     "securityClearanceId": 2,
-    "name": "WaterWheel"
+    "name": "Top dollar Secret"
 }
 
 
@@ -35,5 +35,8 @@ Content-Type: application/json
 }
 
 ###//Delete existing Id
-DELETE {{url}}/3 HTTP/1.1
+DELETE {{url}}/2 HTTP/1.1
 
+
+### // cannot delete securityclearanceId from agency_agent table
+DELETE {{url}}/1 HTTP/1.1
