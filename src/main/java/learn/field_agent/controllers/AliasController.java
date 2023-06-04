@@ -19,6 +19,7 @@ public class AliasController {
         this.service = service;
     }
 
+
     @PostMapping
     public ResponseEntity<Object> add(@RequestBody Alias alias){
         Result<Alias> result = service.add(alias);

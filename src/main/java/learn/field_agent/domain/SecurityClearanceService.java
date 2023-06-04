@@ -4,6 +4,7 @@ import learn.field_agent.data.AgencyAgentRepository;
 import learn.field_agent.data.SecurityClearanceRepository;
 import learn.field_agent.models.AgencyAgent;
 import learn.field_agent.models.SecurityClearance;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class SecurityClearanceService {
     }
 
     public SecurityClearance findById(int securityClearanceId) {
+
         return securityClearanceRepository.findById(securityClearanceId);
     }
 
@@ -34,12 +36,12 @@ public class SecurityClearanceService {
         }
 
         if (securityClearance.getSecurityClearanceId() != 0) {
-            result.addMessage("securityClearnanceId cannot be set for `add` operation", ResultType.INVALID);
+            result.addMessage("securityClearanceId cannot be set for `add` operation", ResultType.INVALID);
             return result;
         }
 
-        securityClearance = securityClearanceRepository.add(securityClearance);
-        result.setPayload(securityClearance);
+        result.setPayload(securityClearanceRepository.add(securityClearance));
+
         return result;
 
     }
@@ -62,9 +64,22 @@ public class SecurityClearanceService {
         return result;
     }
 
-    public boolean deleteById(int securityClearanceId){
+    public Result<Void> deleteById(int securityClearanceId){
+        Result<Void> result = new Result<>();
+        if(!result.isSuccess()){
+            return result;
+        }
 
-        return securityClearanceRepository.deleteById(securityClearanceId);
+        if(isReferenced(securityClearanceId)){
+            result.addMessage("Cannot delete security clearance Id that exists in Agency_agent record", ResultType.INVALID);
+        }
+
+        boolean deleted = securityClearanceRepository.deleteById(securityClearanceId);
+        if(!deleted) {
+            result.addMessage("Cannot find security clearance id", ResultType.NOT_FOUND);
+        }
+
+        return result;
     }
 
     private Result<SecurityClearance> validate(SecurityClearance securityClearance) {
@@ -92,12 +107,18 @@ public class SecurityClearanceService {
             if(existing.getName().equalsIgnoreCase(securityClearance.getName())){
                 return true;
             }
-//            if(existing.getSecurityClearanceId() == securityClearance.getSecurityClearanceId()){
-//                return true;
-//            }
         }
         return false;
     }
 
+    private boolean isReferenced(int securityClearanceId){
+        for(AgencyAgent agencyAgent : agencyAgentRepository.findAll()){
+            if(agencyAgent.getSecurityClearance().getSecurityClearanceId() == securityClearanceId){
+                return true;
+            }
+        }
+        return false;
+    }
+    
 
 }

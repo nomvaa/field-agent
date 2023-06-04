@@ -2,16 +2,21 @@ package learn.field_agent.domain;
 
 import learn.field_agent.data.AgencyAgentRepository;
 import learn.field_agent.data.SecurityClearanceRepository;
+import learn.field_agent.models.Agency;
+import learn.field_agent.models.AgencyAgent;
+import learn.field_agent.models.Agent;
 import learn.field_agent.models.SecurityClearance;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
@@ -86,9 +91,47 @@ class SecurityClearanceServiceTest {
         assertEquals(ResultType.SUCCESS, actual.getType());
     }
 
+    @Test
+    void shouldDeleteSecurityClearanceIdThatDoesNotExistInAgencyAgentDatabase(){
+        assertFalse(service.deleteById(2));
+        when(repository.deleteById(anyInt())).thenReturn(true);
+        assertTrue(service.deleteById(2));
+    }
+
+    @Test
+    void shouldNotDeleteSecurityClearanceIdExistInAgencyAgentDatabase(){
+        SecurityClearance securityClearance = makeSecurityClearance();
+        AgencyAgent agencyAgent = makeAgencyAgent();
+        agencyAgent.setSecurityClearance(securityClearance);
+
+        assertFalse(service.deleteById(3));
+
+    }
+
     private SecurityClearance makeSecurityClearance() {
         SecurityClearance securityClearance = new SecurityClearance();
         securityClearance.setName("Bubbles");
         return securityClearance;
     }
+
+    private AgencyAgent makeAgencyAgent(){
+        Agency agency = new Agency(0, "TEST", "Long Name Test");
+        Agent agent = new Agent();
+        agent.setAgentId(1);
+        agent.setFirstName("Hazel");
+        agent.setMiddleName("C");
+        agent.setLastName("Sauven");
+        agent.setDob(LocalDate.of(1954, 9, 16));
+        agent.setHeightInInches(76);
+
+        AgencyAgent agencyAgent = new AgencyAgent();
+        agencyAgent.setAgent(agent);
+        agencyAgent.setAgencyId(agency.getAgencyId());
+        agencyAgent.setIdentifier(String.format("%s-%s",agencyAgent.getAgencyId(),agencyAgent.getAgent().getAgentId()));
+        agencyAgent.setSecurityClearance(agencyAgent.getSecurityClearance());
+        agencyAgent.setActivationDate(agencyAgent.getActivationDate());
+        agencyAgent.setActive(agencyAgent.isActive());
+        return agencyAgent;
+    }
+
 }
