@@ -2,7 +2,9 @@ package learn.field_agent.domain;
 
 import learn.field_agent.data.AgencyAgentRepository;
 import learn.field_agent.data.SecurityClearanceRepository;
+import learn.field_agent.models.Agency;
 import learn.field_agent.models.AgencyAgent;
+import learn.field_agent.models.Agent;
 import learn.field_agent.models.SecurityClearance;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -66,6 +68,7 @@ public class SecurityClearanceService {
 
     public Result<Void> deleteById(int securityClearanceId){
         Result<Void> result = new Result<>();
+
         if(!result.isSuccess()){
             return result;
         }
@@ -114,11 +117,12 @@ public class SecurityClearanceService {
     }
 
     private boolean isReferenced(int securityClearanceId){
-
-        SecurityClearance securityClearance = agencyAgentRepository.findBySecurityClearanceId(securityClearanceId);
-        if(securityClearance.getSecurityClearanceId() == securityClearanceId) {
-            return true;
+        for(AgencyAgent o : agencyAgentRepository.findAll()){
+            if(o.getSecurityClearance().getSecurityClearanceId() == securityClearanceId){
+                return true;
+            }
         }
+
         return false;
     }
 
