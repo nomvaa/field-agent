@@ -16,5 +16,5 @@ public interface SecurityClearanceRepository {
 
     @Transactional
     boolean deleteById(int securityClearanceId);
-    //not appropriate to delete agency_agent records that depend on a security clearance. Only allow deletion if a security clearance key isn't referenced.
+
 }

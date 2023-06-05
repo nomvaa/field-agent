@@ -19,11 +19,6 @@ public class AgencyAgentJdbcTemplateRepository implements AgencyAgentRepository 
         this.jdbcTemplate = jdbcTemplate;
     }
 
-//    @Override
-//    public SecurityClearance findBySecurityClearanceId(int securityClearanceId){
-//        return securityClearanceRepository.findById(securityClearanceId);
-//    }
-
     @Override
     public List<AgencyAgent> findAll() {
         final String sql = "select aa.agency_id, aa.agent_id, aa.identifier, aa.activation_date, aa.is_active, "

@@ -2,11 +2,11 @@ package learn.field_agent.domain;
 
 import learn.field_agent.data.AgencyAgentRepository;
 import learn.field_agent.data.SecurityClearanceRepository;
-import learn.field_agent.models.Agency;
+
 import learn.field_agent.models.AgencyAgent;
-import learn.field_agent.models.Agent;
+
 import learn.field_agent.models.SecurityClearance;
-import org.springframework.dao.DataIntegrityViolationException;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;

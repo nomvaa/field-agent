@@ -80,15 +80,5 @@ public class SecurityClearanceJdbcTemplateRepository implements SecurityClearanc
                 .findFirst().orElse(null);
     }
 
-//    public boolean isInUse(int securityClearanceId){
-//        final String sql = "select " +
-//                "sc.security_clearance_id" +
-//                "from agency_agent aa" +
-//                "inner join security_clearance sc on aa.security_clearance_id = sc.security_clearance_id" +
-//                "where sc.security_clearance_id = ?;";
-//
-//        return
-//    }
-
 
 }
