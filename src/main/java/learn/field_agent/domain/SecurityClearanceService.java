@@ -114,13 +114,12 @@ public class SecurityClearanceService {
     }
 
     private boolean isReferenced(int securityClearanceId){
-        for(AgencyAgent agencyAgent : agencyAgentRepository.findAll()){
-            if(agencyAgent.getSecurityClearance().getSecurityClearanceId() == securityClearanceId){
-                return true;
-            }
+
+        SecurityClearance securityClearance = agencyAgentRepository.findBySecurityClearanceId(securityClearanceId);
+        if(securityClearance.getSecurityClearanceId() == securityClearanceId) {
+            return true;
         }
         return false;
     }
-
 
 }

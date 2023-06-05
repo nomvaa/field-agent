@@ -2,6 +2,7 @@ package learn.field_agent.data;
 
 import learn.field_agent.data.mappers.AgencyAgentMapper;
 import learn.field_agent.models.AgencyAgent;
+import learn.field_agent.models.SecurityClearance;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -11,9 +12,16 @@ import java.util.List;
 public class AgencyAgentJdbcTemplateRepository implements AgencyAgentRepository {
 
     private final JdbcTemplate jdbcTemplate;
+    private final SecurityClearanceRepository securityClearanceRepository;
 
-    public AgencyAgentJdbcTemplateRepository(JdbcTemplate jdbcTemplate) {
+    public AgencyAgentJdbcTemplateRepository(JdbcTemplate jdbcTemplate, SecurityClearanceRepository securityClearanceRepository) {
         this.jdbcTemplate = jdbcTemplate;
+        this.securityClearanceRepository = securityClearanceRepository;
+    }
+
+    @Override
+    public SecurityClearance findBySecurityClearanceId(int securityClearanceId){
+        return securityClearanceRepository.findById(securityClearanceId);
     }
 
     @Override
