@@ -1,9 +1,9 @@
 package learn.field_agent.data;
 
 import learn.field_agent.data.mappers.AgencyAgentMapper;
-import learn.field_agent.models.Agency;
+
 import learn.field_agent.models.AgencyAgent;
-import learn.field_agent.models.Agent;
+
 import learn.field_agent.models.SecurityClearance;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -15,7 +15,7 @@ public class AgencyAgentJdbcTemplateRepository implements AgencyAgentRepository 
 
     private final JdbcTemplate jdbcTemplate;
 
-    public AgencyAgentJdbcTemplateRepository(JdbcTemplate jdbcTemplate, SecurityClearanceRepository securityClearanceRepository) {
+    public AgencyAgentJdbcTemplateRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

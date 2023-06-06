@@ -173,4 +173,31 @@ create table alias (
 --     (2, 'Top Secret');
     
 select * from agency_agent;
+
+select 
+aa.agency_id, 
+aa.agent_id, 
+aa.identifier, 
+aa.activation_date, 
+aa.is_active, 
+sc.security_clearance_id, sc.name security_clearance_name, 
+a.first_name, 
+a.middle_name, 
+a.last_name, 
+a.dob, 
+a.height_in_inches
+from agency_agent aa 
+inner join agent a on aa.agent_id = a.agent_id 
+inner join security_clearance sc on aa.security_clearance_id = sc.security_clearance_id;
+
+-- select 
+-- count(aa.security_clearance_id)
+-- from agency_agent 
+-- -- inner join security_clearance sc on aa.security_clearance_id = sc.security_clearance_id
+-- where count(aa.security_clearance_id) < 1
+-- group by identifier;
+
+
+
+
     

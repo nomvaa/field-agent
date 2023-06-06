@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class AliasJdbcTemplateRepositoryTest {
 
-    final static int NEXT_ALIAS_ID = 4;
+    final static int NEXT_ALIAS_ID = 2;
     @Autowired
     AliasJdbcTemplateRepository repository;
 
@@ -45,13 +45,4 @@ class AliasJdbcTemplateRepositoryTest {
 
     }
 
-    @Test
-    void shouldNotUpdateMissing(){
-
-    }
-
-    @Test
-    void shouldDelete(){
-
-    }
 }

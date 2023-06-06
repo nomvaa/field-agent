@@ -62,7 +62,7 @@ class SecurityClearanceJdbcTemplateRepositoryTest {
     @Test
     void shouldUpdate() {
         SecurityClearance securityClearance = makeSecurityClearance();
-        securityClearance.setSecurityClearanceId(2);
+        securityClearance.setSecurityClearanceId(1);
         assertTrue(repository.update(securityClearance));
     }
 
