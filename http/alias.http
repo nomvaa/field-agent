@@ -1,0 +1,39 @@
+@url = http://localhost:8080/api/alias
+
+### //Add new alias
+POST {{url}}
+Content-Type: application/json
+
+{
+    "name": "Thunderbolt",
+    "persona": "Zenitsu",
+    "agentId": 1
+}
+
+### //update existing Id
+PUT {{url}}/4 HTTP/1.1
+Content-Type: application/json
+
+{
+    "aliasId": 4,
+    "name": "WaterWheel",
+    "persona": null,
+    "agentId": 1
+}
+
+###//update nonexisting Id
+PUT {{url}}/99 HTTP/1.1
+Content-Type: application/json
+
+{
+    "aliasId": 4,
+    "name": "WaterWheel",
+    "persona": null,
+    "agentId": 1
+}
+
+###//Delete existing Id
+DELETE {{url}}/3 HTTP/1.1
+
+### // Delete nonexisting Id
+DELETE {{url}}/99 HTTP/1.1

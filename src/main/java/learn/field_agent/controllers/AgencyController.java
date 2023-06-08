@@ -59,7 +59,7 @@ public class AgencyController {
     @DeleteMapping("/{agencyId}")
     public ResponseEntity<Void> deleteById(@PathVariable int agencyId) {
         if (agencyService.deleteById(agencyId)) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity< >(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }

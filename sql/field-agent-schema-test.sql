@@ -96,22 +96,26 @@ create table alias (
         references agent(agent_id)
 );
 
-delimiter //
-create procedure set_known_good_state()
-begin
+-- delimiter //
+-- create procedure set_known_good_state()
+-- begin
 
-	delete from location;
-    alter table location auto_increment = 1;
-    delete from agency_agent;
-	delete from agency;
-	alter table agency auto_increment = 1;
-    delete from agent;
-    alter table agent auto_increment = 1;
+-- 	delete from location;
+--     alter table location auto_increment = 1;
+--     delete from agency_agent;
+-- 	delete from agency;
+-- 	alter table agency auto_increment = 1;
+--     delete from alias;
+--     alter table alias auto_increment = 1;
+--     delete from agent;
+--     alter table agent auto_increment = 1;
     
     insert into agency(agency_id, short_name, long_name) values
         (1, 'ACME', 'Agency to Classify & Monitor Evildoers'),
         (2, 'MASK', 'Mobile Armored Strike Kommand'),
         (3, 'ODIN', 'Organization of Democratic Intelligence Networks');
+        
+        select * from agency;
         
 	insert into location (location_id, name, address, city, region, country_code, postal_code, agency_id)
 		values
@@ -121,6 +125,8 @@ begin
 	(4, 'Remote', '999 Nine St.', 'Test', 'WI', 'USA', '55555', 2),
 	(5, 'HQ', '123 Elm', 'Test', 'WI', 'USA', '55555', 3), -- for delete tests
 	(6, 'Remote', '999 Nine St.', 'Test', 'WI', 'USA', '55555', 3);
+    
+    select * from location;
         
 	insert into agent 
 		(first_name, middle_name, last_name, dob, height_in_inches) 
@@ -133,6 +139,17 @@ begin
 		('Urban','H','Carwithen',null,58),
 		('Ulises','B','Muhammad','2008-04-01',80),
 		('Phylys','Y','Howitt','1979-03-28',68);
+        
+        select * from agent;
+        
+        insert into alias (`name`, persona, agent_id)
+        values ('Nutmeg', null, 1);
+        
+        insert into security_clearance values
+	(1, 'Secret'),
+    (2, 'Top Secret');
+    
+    select * from security_clearance;
         
 	insert into agency_agent 
 		(agency_id, agent_id, identifier, security_clearance_id, activation_date)
@@ -147,11 +164,42 @@ begin
     where agent.agent_id not in (6, 8)
     and agency.agency_id != 2;
 
-end //
--- 4. Change the statement terminator back to the original.
-delimiter ;
+
+-- end //
+-- -- 4. Change the statement terminator back to the original.
+-- delimiter ;
 
 -- data
-insert into security_clearance values
-	(1, 'Secret'),
-    (2, 'Top Secret');
+-- insert into security_clearance values
+-- 	(1, 'Secret'),
+--     (2, 'Top Secret');
+    
+select * from agency_agent;
+
+select 
+aa.agency_id, 
+aa.agent_id, 
+aa.identifier, 
+aa.activation_date, 
+aa.is_active, 
+sc.security_clearance_id, sc.name security_clearance_name, 
+a.first_name, 
+a.middle_name, 
+a.last_name, 
+a.dob, 
+a.height_in_inches
+from agency_agent aa 
+inner join agent a on aa.agent_id = a.agent_id 
+inner join security_clearance sc on aa.security_clearance_id = sc.security_clearance_id;
+
+-- select 
+-- count(aa.security_clearance_id)
+-- from agency_agent 
+-- -- inner join security_clearance sc on aa.security_clearance_id = sc.security_clearance_id
+-- where count(aa.security_clearance_id) < 1
+-- group by identifier;
+
+
+
+
+    

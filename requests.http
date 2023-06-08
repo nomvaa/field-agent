@@ -1,0 +1,45 @@
+@url = http://localhost:8080/api/security
+
+### //Get listing for all security clearance listing
+GET {{url}} HTTP/1.1
+
+### //Get secuirty listing by Id
+GET {{url}}/2 HTTP/1.1
+
+### //Add new secuirty Clearance
+POST {{url}}
+Content-Type: application/json
+
+{
+    "name": "FireWheel"
+
+}
+
+### //update existing Id
+PUT {{url}}/2 HTTP/1.1
+Content-Type: application/json
+
+{
+    "securityClearanceId": 2,
+    "name": "Top dollar Secret"
+}
+
+
+###//update nonexisting Id
+PUT {{url}}/99 HTTP/1.1
+Content-Type: application/json
+
+{
+    "securityClearanceId": 99,
+    "name": "Mary-go-round"
+}
+
+###//Delete existing Id
+DELETE {{url}}/3 HTTP/1.1
+
+
+
+ ///////////////////////////////////////////////////////////////////////
+
+### // cannot delete securityclearanceId from agency_agent table
+DELETE {{url}}/1 HTTP/1.1
