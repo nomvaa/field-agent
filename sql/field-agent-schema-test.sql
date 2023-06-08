@@ -148,6 +148,8 @@ create table alias (
         insert into security_clearance values
 	(1, 'Secret'),
     (2, 'Top Secret');
+    
+    select * from security_clearance;
         
 	insert into agency_agent 
 		(agency_id, agent_id, identifier, security_clearance_id, activation_date)

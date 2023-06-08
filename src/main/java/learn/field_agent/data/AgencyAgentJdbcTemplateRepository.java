@@ -15,6 +15,7 @@ public class AgencyAgentJdbcTemplateRepository implements AgencyAgentRepository 
 
     private final JdbcTemplate jdbcTemplate;
 
+
     public AgencyAgentJdbcTemplateRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }

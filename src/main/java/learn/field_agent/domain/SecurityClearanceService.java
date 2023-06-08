@@ -69,10 +69,6 @@ public class SecurityClearanceService {
     public Result<Void> deleteById(int securityClearanceId){
         Result<Void> result = new Result<>();
 
-        if(!result.isSuccess()){
-            return result;
-        }
-
         if(isReferenced(securityClearanceId)){
             result.addMessage("Cannot delete security clearance Id that exists in Agency_agent record", ResultType.INVALID);
             return result;
