@@ -1,10 +1,55 @@
+header {
+    background-color: #ddd;
+}
+
+h1 {
+    letter-spacing: 5px;
+    text-transform: uppercase;
+}
+
+span {
+    color:steelblue ;
+}
+
+main {
+    background: #ddd;
+}
+
+.card {
+    margin-bottom: 50px;
+    margin-left: 30px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    border-radius: 15px;
+    background-color: #464545;
+}
+
+.card-body {
+    text-align: center;
+}
+
+
+.main-text {
+    padding: 10px 0;
+    text-transform: uppercase;
+    font-weight: 900;
+    margin: 0 0 20px;
+    color: white;
+    
+}
+.dob-text {
+    color: white;
+}
+
+
+
 footer {
     bottom: 0;
     width: 100%;
     background-color: #333;
-    color: #fff;
-    background-color: darkgrey;
-    padding: 3rem 0 3rem;
+    color: #333;
+    background-color: #333;
+    /* padding: 3rem 0 3rem; */
     text-align: center;
-    margin-top: 3rem;
-  }
+    /* margin-top: 3rem; */
+}

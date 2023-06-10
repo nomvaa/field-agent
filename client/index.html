@@ -1,98 +1,108 @@
 <!DOCTYPE html>
 
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <link rel="stylesheet" href="style.css">
-        <script src="index.js" defer></script>
-        <script src="agentApi.js" defer></script>
 
-    </head>
-    <body>
-        <header>
-            <nav class="navbar navbar-light bg-light">
-              <div class="container-fluid">
-                <h1>Field Agent</h1>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="index.js" defer></script>
+    <script src="avatarPersonaApi.js" defer></script>
+
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid my-5">
+                <h1 class="text-center">Agent<b>|</b><span>Management</span></h1>
                 <button class="btn btn-success" onclick="handleAdd()">Add new Agent</button>
-            </nav>
-          </header>
+            </div>
+        </nav>
+    </header>
 
-          <main>
-          <div id="listView" class="container-fluid">
+    <main>
+        <div id="listView" class="container-fluid">
         </div>
         <div id="formView" class="container-fluid" style="display: none;">
             <form onsubmit="handleSaveAgent(event)">
-          <div class="form-row">
-            <div class="form-group col-md-5">
-                <label for="firstName" class="form-label">First Name</label>
-                <input type="text" class="form-control" id="firstName" name="firstName" onchange="handleChange(event)" required>
-            </div>
-            <div class="form-group col-md-2">
-                <label for="middleName" class="form-label">Middle Name</label>
-                <input type="text" class="form-control" id="middleName" name="middleName" onchange="handleChange(event)">
-            </div>
-            <div class="form-group col-md-5">
-                <label for="lastName" class="form-label">Last Name</label>
-                <input type="text" class="form-control" id="lastName" name="lastName" onchange="handleChange(event)" required>
-            </div>
-          </div>
-        <div class="row">
-          <div class="col">
-            <label for="dob" class="form-label">Date of Birth</label>
-            <input type="date" class="form-control" id="dob" min="1900" max="2024" step="1" name="dob" onchange="handleChange(event)" required>
-          </div>
-          <div class="col">
-            <label for="heightInInches" class="form-label">Height (inches)</label>
-            <input type="number" class="form-control" id="heightInInches" min="36" max="96" step="1" name="heightInInches" onchange="handleChange(event)" required>
-        </select>
-          </div>
-          </div>
-    
-          <div class="form-group row">
-            <div class="col-sm-10"><br>
-                <button type="submit" class="btn btn-primary">Save</button>
-                <button type="button" class="btn btn-secondary" onclick="setView('list')">Cancel</button>
-            </div>
-          </div>
-          </div>
-        </form>
-          <div id="deleteView" class="container-fluid" style="display: none;">
-            <div class="row">
-              <div class="col">
-                <h2 id="deleteTitle"></h2>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col">
-                <div class=" alert alert-danger">
-                  Are you sure you want to permanently delete this agent?
+                <div class="form-row">
+                    <div class="form-group col-md-5">
+                        <label for="firstName" class="form-label">First Name</label>
+                        <input type="text" class="form-control" id="firstName" name="firstName"
+                            onchange="handleChange(event)" required>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="middleName" class="form-label">Middle Name</label>
+                        <input type="text" class="form-control" id="middleName" name="middleName"
+                            onchange="handleChange(event)">
+                    </div>
+                    <div class="form-group col-md-5">
+                        <label for="lastName" class="form-label">Last Name</label>
+                        <input type="text" class="form-control" id="lastName" name="lastName"
+                            onchange="handleChange(event)" required>
+                    </div>
                 </div>
-              </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="dob" class="form-label">Date of Birth</label>
+                        <input type="date" class="form-control" id="dob" min="1900" max="2024" step="1" name="dob"
+                            onchange="handleChange(event)" required>
+                    </div>
+                    <div class="col">
+                        <label for="heightInInches" class="form-label">Height (inches)</label>
+                        <input type="number" class="form-control" id="heightInInches" min="36" max="96" step="1"
+                            name="heightInInches" onchange="handleChange(event)" required>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-10"><br>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="button" class="btn btn-secondary" onclick="setView('list')">Cancel</button>
+                    </div>
+                </div>
+        </div>
+        </form>
+        <div id="deleteView" class="container-fluid" style="display: none;">
+            <div class="row">
+                <div class="col">
+                    <h2 id="deleteTitle"></h2>
+                </div>
             </div>
             <div class="row">
-              <div class="col">
-                <button type="button" class="btn btn-danger" onclick="handleDelete()">Delete Forever</button>
-                <button type="button" class="btn btn-secondary" onclick="setView('list')">Cancel</button>
-              </div>
+                <div class="col">
+                    <div class=" alert alert-danger">
+                        Are you sure you want to permanently delete this agent?
+                    </div>
+                </div>
             </div>
-          </div>
-      
-          <div class="container-fluid">
-            <div id="messages" class="alert alert-info" style="display: none;">
-      
+            <div class="row">
+                <div class="col">
+                    <button type="button" class="btn btn-danger" onclick="handleDelete()">Delete Forever</button>
+                    <button type="button" class="btn btn-secondary" onclick="setView('list')">Cancel</button>
+                </div>
             </div>
-          </div>
-          </main>
+        </div>
 
-          <footer>
-            <div class="container-fluid">
-              FOOTER TEXT
+        <div class="container-fluid">
+            <div id="messages" class="alert alert-info" style="display: none;">
+
             </div>
-          </footer>
-    </body>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container-fluid">
+        </div>
+    </footer>
+</body>
+
 </html>
