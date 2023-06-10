@@ -77,17 +77,17 @@ const emptyAgent = {
           displayMessage(errors, 'ERROR');
         });
     } 
-    // else {
-    //   updateAgent(currentAgent)
-    //     .then(() => {
-    //       displayMessage(`${currentAgent.firstName} was updated!`, 'SUCCESS');
-    //       refreshList();
-    //       setView('list');
-    //     })
-    //     .catch(errors => {
-    //       displayMessage(errors, 'ERROR');
-    //     });
-    // }
+    else {
+      updateAgent(currentAgent)
+        .then(() => {
+          displayMessage(`${currentAgent.firstName} was updated!`, 'SUCCESS');
+          refreshList();
+          setView('list');
+        })
+        .catch(errors => {
+          displayMessage(errors, 'ERROR');
+        });
+    }
   };
   
   const handleDelete = () => {
@@ -126,8 +126,8 @@ const emptyAgent = {
                 <h6 class="card-text">${agent.firstName} ${agent.lastName}</h5>
                 <h7 class="row-column mb-2 text-muted">Dob: ${agent.dob}</h7>
                 <br>
-                <button type="button" class="btn btn-primary btn-sm">Edit</button>
-                <button type="button" class="btn btn-danger btn-sm">Remove</button>
+                <button type="button" class="btn btn-primary btn-sm" onclick="handleEdit(${agent.agentId})">Edit</button>
+                <button type="button" class="btn btn-danger btn-sm" onclick="handleConfirmDelete(${agent.agentId})">Remove</button>
                 </div>
                 <br>
             </div>
