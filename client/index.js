@@ -127,7 +127,7 @@ const renderList = () => {
 
         const randomPersonaName = getRandomPersona(personaNameList);
         const agentHtml = `
-        <div class="col-sm-3 col-lg-3 col-md-4">
+        <div class="col">
             <div class="card" style="width: 17rem;">
                     <img class="card-img rounded-circle img-fluid" src="${AVATAR_URL}${randomPersonaName}" alt="persona-avatar">
                     <div class="card-body">

@@ -22,11 +22,19 @@ main {
     overflow: hidden;
     border-radius: 15px;
     background-color: #464545;
+    flex-wrap: wrap;
+}
+
+.card:hover {
+    background-color: rgb(24, 23, 23);
+    color: white;
+    cursor: pointer;
 }
 
 .card-body {
     text-align: center;
 }
+
 
 
 .main-text {
