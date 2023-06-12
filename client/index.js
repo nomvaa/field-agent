@@ -151,6 +151,7 @@ const renderList = () => {
 
 };
 
+
 const setView = (nextView) => {
     currentView = nextView;
     document.getElementById('formView').style.display = 'none';
