@@ -1,12 +1,9 @@
-const API_URL = "http://localhost:8080/api/agent";
+const API_URL = "http://localhost:8080/api/agency";
 
-const emptyAgent = {
-    agentId: 0,
-    firstName: '',
-    middleName: '',
-    lastName: '',
-    dob: null,
-    heightInInches: 0,
+const emptyAgency = {
+    agencyId: 0,
+    shortName: '',
+    longName: '',
 };
 
 const MESSAGE_STYLES = {
@@ -16,25 +13,25 @@ const MESSAGE_STYLES = {
 
 
 let currentView = 'list';
-let agents = [];
-let currentAgent = {};
+let agencies = [];
+let currentAgency = {};
 
 const init = () => {
     refreshList();
 };
 
-const handleAdd = () => {
+const handleAddAgency = () => {
     hideMessages();
-    currentAgent = { ...emptyAgent };
+    currentAgency = { ...emptyAgency };
     resetForm();
     setView('form');
 };
 
 const handleEdit = (id) => {
     hideMessages();
-    const index = agents.findIndex(a => a.agentId === id);
+    const index = agencies.findIndex(a => a.agencyId === id);
     if (index !== -1) {
-        currentAgent = agents[index];
+        currentAgency = agencies[index];
         resetForm();
         setView('form');
     }
@@ -42,33 +39,25 @@ const handleEdit = (id) => {
 
 const handleConfirmDelete = (id) => {
     hideMessages();
-    const index = agents.findIndex(a => a.agentId === id);
+    const index = agencies.findIndex(a => a.agencyId === id);
     if (index !== -1) {
-        currentAgent = agents[index];
-        document.getElementById('deleteTitle').innerText = currentAgent.firstName;
+        currentAgency = agencies[index];
+        document.getElementById('deleteTitle').innerText = currentAgency.longName;
         setView('delete');
     }
 };
 
 const handleChange = (evt) => {
-    let nextValue = evt.target.value;
-    if (evt.target.type === 'number') {
-        nextValue = parseInt(nextValue, 10);
-        if (isNaN(nextValue)) {
-            nextValue = evt.target.valueAsNumber;
-        }
-    }
-    currentAgent[evt.target.name] = nextValue;
-
+    currentAgency[evt.target.name] = evt.target.value;
 };
 
-const handleSaveAgent = (evt) => {
+const handleSaveAgency = (evt) => {
     evt.preventDefault();
 
-    if (currentAgent.agentId === 0) {
-        addAgent(currentAgent)
+    if (currentAgency.agencyId === 0) {
+        addAgency(currentAgency)
             .then(data => {
-                displayMessage(`${data.firstName} was added!`, 'SUCCESS');
+                displayMessage(`${data.longName} was added!`, 'SUCCESS');
                 refreshList();
                 setView('list');
             })
@@ -77,9 +66,9 @@ const handleSaveAgent = (evt) => {
             });
     }
     else {
-        updateAgent(currentAgent)
+        updateAgency(currentAgency)
             .then(() => {
-                displayMessage(`${currentAgent.firstName} was updated!`, 'SUCCESS');
+                displayMessage(`${currentAgency.longName} was updated!`, 'SUCCESS');
                 refreshList();
                 setView('list');
             })
@@ -90,9 +79,9 @@ const handleSaveAgent = (evt) => {
 };
 
 const handleDelete = () => {
-    deleteAgent(currentAgent)
+    deleteAgency(currentAgency)
         .then(() => {
-            displayMessage(`${currentAgent.firstName} was deleted!`, 'SUCCESS');
+            displayMessage(`${currentAgency.longName} was deleted!`, 'SUCCESS');
             refreshList();
             setView('list');
         })
@@ -103,13 +92,13 @@ const handleDelete = () => {
 };
 
 const refreshList = () => {
-    fetchAgents()
+    fetchAgencies()
         .then(data => {
-            agents = data;
+            agencies = data;
             renderList();
         })
         .catch(err => {
-            displayMessage('Could not add agent', 'ERROR');
+            displayMessage('Could not add agency', 'ERROR');
         });
 };
 
@@ -118,32 +107,32 @@ const refreshList = () => {
 const renderList = () => {
     let htmlString = '<div class="row">';
 
-    for (let agent of agents) {
-        const AVATAR_URL = "https://api.dicebear.com/6.x/avataaars/svg?seed=";
+    for (let agency of agencies) {
+        const AVATAR_URL = "https://api.dicebear.com/6.x/shapes/svg?seed=";
         const getRandomPersona = (personaNames) => {
             const randomIndex = Math.floor(Math.random() * personaNames.length);
             return personaNames[randomIndex];
         }
 
         const randomPersonaName = getRandomPersona(personaNameList);
-        const agentHtml = `
+        const agencyHtml = `
         <div class="col">
             <div class="card" style="width: 17rem;">
-                    <img class="card-img rounded-circle img-fluid" src="${AVATAR_URL}${randomPersonaName}" alt="persona-avatar">
+            <img class="card-img rounded-circle img-fluid" src="${AVATAR_URL}${randomPersonaName}" alt="persona-avatar">
                     <div class="card-body">
-                        <h6 class="main-text">${agent.firstName} ${agent.lastName}</h5>
-                        <h7 class="dob-text mb-2"><b>Dob:</b> ${agent.dob}</h7>
+                        <h6 class="main-text">${agency.shortName}</h5>
+
                         <br>
                         <div class="icons my-2">
-                        <button type="button" title="Edit" class="btn btn-primary btn-sm rounded-pill" onclick="handleEdit(${agent.agentId})"><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button type="button" title="Remove" class="btn btn-danger btn-sm rounded-pill" onclick="handleConfirmDelete(${agent.agentId})"><i class="fa-solid fa-trash-can"></i></button>
+                        <button type="button" class="btn btn-primary btn-sm rounded-pill" title="Edit" onclick="handleEdit(${agency.agencyId})"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button type="button" class="btn btn-danger btn-sm rounded-pill" title="Remove" onclick="handleConfirmDelete(${agency.agencyId})"><i class="fa-solid fa-trash-can"></i></button>
                         </div>
                     </div>
             </div>   
         </div>
         <br>
         `;
-        htmlString += agentHtml;
+        htmlString += agencyHtml;
     }
 
     htmlString += '</div>';
@@ -167,11 +156,8 @@ const setView = (nextView) => {
 };
 
 const resetForm = () => {
-    document.getElementById('firstName').value = currentAgent.firstName;
-    document.getElementById('middleName').value = currentAgent.middleName;
-    document.getElementById('lastName').value = currentAgent.lastName;
-    document.getElementById('dob').value = currentAgent.dob;
-    document.getElementById('heightInInches').value = currentAgent.heightInInches;
+    document.getElementById('shortName').value = currentAgency.shortName;
+    document.getElementById('longName').value = currentAgency.longName;
 };
 
 const displayMessage = (message, messageStyle) => {
@@ -192,7 +178,7 @@ const hideMessages = () => {
     messages.style.display = 'none';
 };
 
-const fetchAgents = async () => {
+const fetchAgencies = async () => {
     const response = await fetch(API_URL);
 
     if (response.status === 200) {
@@ -200,14 +186,14 @@ const fetchAgents = async () => {
     }
 }
 
-const addAgent = async (agent) => {
+const addAgency = async (agency) => {
     const init = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         },
-        body: JSON.stringify(agent)
+        body: JSON.stringify(agency)
     };
 
     const response = await fetch(API_URL, init);
@@ -220,37 +206,37 @@ const addAgent = async (agent) => {
     }
 };
 
-const updateAgent = async (agent) => {
+const updateAgency = async (agency) => {
     const init = {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         },
-        body: JSON.stringify(agent)
+        body: JSON.stringify(agency)
     };
 
-    const url = `${API_URL}/${agent.agentId}`;
+    const url = `${API_URL}/${agency.agencyId}`;
 
     const response = await fetch(url, init);
 
     if (response.status === 404) {
-        Promise.reject(`${agent.firstName} was not found!`);
+        Promise.reject(`${agency.longName} was not found!`);
     } else if (response.status !== 204) {
         const errors = await response.json();
         Promise.reject(errors);
     }
 };
 
-const deleteAgent = async (agent) => {
+const deleteAgency = async (agency) => {
     const init = {
         method: 'DELETE',
     };
 
-    const response = await fetch(`${API_URL}/${agent.agentId}`, init);
+    const response = await fetch(`${API_URL}/${agency.agencyId}`, init);
 
     if (response.status === 404) {
-        Promise.reject(`${agent.firstName} was not found!`);
+        Promise.reject(`${agency.longName} was not found!`);
     }
 };
 
