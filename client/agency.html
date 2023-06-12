@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="./style.css">
+    <script src="agency.js" defer></script>
+    <script src="avatarPersonaApi.js" defer></script>
+
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid my-5">
+                <h1 class="text-center">Agency<b>|</b><span>Management</span></h1>
+                <a href="index.html"><button class="btn btn-info rounded-pill" title="Agent Management"><i class="fa-regular fa-id-badge"></i> Agent Management</button></a>
+                <button class="btn btn-success rounded-pill" title="Add New Agency" onclick="handleAddAgency()"><i class="fa-solid fa-house-flag"></i> Add Agency</button>
+            </div>
+        </nav>
+    </header>
+    <div class="container-fluid">
+        <div id="messages" class="alert alert-info" style="display: none;">
+        </div>
+    </div>
+    <main>
+        <div id="listView" class="container-fluid">
+        </div>
+        <div id="formView" class="container-fluid" style="display: none;">
+            <form onsubmit="handleSaveAgency(event)"><br>
+                <h2 class="text-center" >Agency Information</h2>
+                <div class="row">
+                    <div class="col">
+                        <label for="shortName" class="form-label">Short Name</label>
+                        <input type="text" class="form-control" id="shortName" name="shortName"
+                            onchange="handleChange(event)">
+                    </div>
+                    <div class="col">
+                        <label for="longName" class="form-label">Long Name</label>
+                        <input type="text" class="form-control" id="longName" name="longName"
+                            onchange="handleChange(event)">
+                    </div>
+                    </div>
+                <div class="form-group row">
+                    <div class="col-sm-10"><br>
+                        <button type="submit" title="Save"class="btn btn-primary rounded-pill"><i class="fa-solid fa-floppy-disk"></i></button>
+                        <button type="button" title="Cancel" class="btn btn-secondary rounded-pill" onclick="setView('list')"><i class="fa-solid fa-ban"></i></button>
+                    </div>
+                </div>
+        </div>
+        </form>
+        <div id="deleteView" class="container-fluid" style="display: none;">
+            <div class="row">
+                <div class="col">
+                    <h2 id="deleteTitle"></h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class=" alert alert-danger">
+                        Are you sure you want to permanently delete this Agency?
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <button type="button" title="Delete Forever"class="btn btn-danger rounded-pill" onclick="handleDelete()"><i class="fa-solid fa-trash"></i></button>
+                    <button type="button" title="Go Back" class="btn btn-secondary rounded-pill" onclick="setView('list')"><i
+                        class="fa-solid fa-circle-arrow-left"></i></button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container-fluid" >
+            &copy; Nou Vang
+        </div>
+    </footer>
+</body>
+
+</html>
