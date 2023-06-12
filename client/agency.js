@@ -124,8 +124,8 @@ const renderList = () => {
 
                         <br>
                         <div class="icons my-2">
-                        <button type="button" class="btn btn-primary btn-sm rounded-pill" title="Edit" onclick="handleEdit(${agency.agencyId})"><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button type="button" class="btn btn-danger btn-sm rounded-pill" title="Remove" onclick="handleConfirmDelete(${agency.agencyId})"><i class="fa-solid fa-trash-can"></i></button>
+                        <button type="button" class="btn btn-primary btn-sm rounded-pill" onclick="handleEdit(${agency.agencyId})"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button type="button" class="btn btn-danger btn-sm rounded-pill" onclick="handleConfirmDelete(${agency.agencyId})"><i class="fa-solid fa-trash-can"></i></button>
                         </div>
                     </div>
             </div>   
